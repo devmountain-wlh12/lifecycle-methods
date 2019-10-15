@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react'
+import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  // ! CONSTRUCTOR RUNS FIRST
+  constructor() {
+    super()
+    this.state = {
+      inputValue: ''
+    }
+  }
+
+  // ! COMPONENTDIDMOUNT RUNS ONCE, AFTER THE FIRST RENDER
+  componentDidMount() {
+    console.log('hey I mounted!')
+    setTimeout(() => this.setState({inputValue: 'Type something to change me'}), 3000)
+  }
+
+  // ! COMPONENTDIDUPDATE RUNS AFTER EACH CONSECUTIVE RENDER
+  componentDidUpdate(previousState, previousProps) {
+    if (previousState.inputValue !== this.state.inputValue) {
+      console.log('hey I updated!')
+    }
+  }
+
+  handleChange(e) {
+    // ! THIS.SETSTATE CAUSES RENDER TO RUN AGAIN
+    this.setState({
+      inputValue: e.target.value
+    })
+  }
+
+  // ! RENDER RUNS SECOND
+  render() {
+    return (
+      <div className="App">
+        <h1>{this.state.inputValue}</h1>
+        <input onChange={e => this.handleChange(e)} />
+      </div>
+    )
+  }
 }
 
-export default App;
+export default App
